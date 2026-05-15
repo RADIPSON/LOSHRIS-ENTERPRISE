@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOSHRIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0c0e;
+      --surface: #13151a;
+      --border: #1f2330;
+      --accent: #c8ff00;
+      --accent2: #00e5ff;
+      --text: #eef0f5;
+      --muted: #5a5f72;
+      --danger: #ff4d4d;
+      --success: #00d68f;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* GRID BACKGROUND */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,255,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,255,0,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 6px;
+      color: var(--accent);
+      text-shadow: 0 0 24px rgba(200,255,0,0.3);
+    }
+
+    .tagline {
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      flex: 1;
+      position: relative;
+      z-index: 10;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 60px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      letter-spacing: 10px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+    .card:nth-child(4) { animation-delay: 0.3s; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .card-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(200,255,0,0.08);
+      border: 1px solid rgba(200,255,0,0.15);
+      display: grid; place-items: center;
+      font-size: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* FORM FIELDS */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(200,255,0,0.4);
+      box-shadow: 0 0 0 3px rgba(200,255,0,0.07);
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* FILE DROP ZONE */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(200,255,0,0.03);
+    }
+
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .drop-icon { font-size: 2rem; margin-bottom: 8px; }
+    .drop-label { font-size: 0.85rem; color: var(--muted); }
+    .drop-label span { color: var(--accent); font-weight: 500; }
+
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .file-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+    .file-size { color: var(--muted); font-size: 0.75rem; }
+
+    .file-remove {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 1rem;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .file-remove:hover { opacity: 1; }
+
+    /* BUTTON */
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0b0c0e;
+      box-shadow: 0 4px 24px rgba(200,255,0,0.2);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(200,255,0,0.35);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 14px;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* RESPONSE */
+    .response-box {
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      display: none;
+      word-break: break-word;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .response-box.success {
+      background: rgba(0,214,143,0.08);
+      border: 1px solid rgba(0,214,143,0.25);
+      color: var(--success);
+    }
+
+    .response-box.error {
+      background: rgba(255,77,77,0.08);
+      border: 1px solid rgba(255,77,77,0.25);
+      color: var(--danger);
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 520px) {
+      header { padding: 20px; }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">LOSHRIS</div>
+    <div class="tagline">Sistem Informasi Terpadu</div>
+  </div>
+  <div class="status-pill">
+    <span class="status-dot"></span>
+    <span>Sistem Aktif</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <h1>LOSHRIS</h1>
+    <p>Portal Upload Dokumen &amp; Data</p>
+  </div>
+
+  <!-- FORM IDENTITAS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">👤</div>
+      <div class="card-title">Identitas Pengirim</div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Masukkan nama..." />
+      </div>
+      <div class="field">
+        <label>NIP / ID Pegawai</label>
+        <input type="text" id="nip" placeholder="Nomor identitas..." />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Unit / Bagian</label>
+        <input type="text" id="unit" placeholder="Nama unit kerja..." />
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="tanggal" />
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO DOKUMEN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Informasi Dokumen</div>
+    </div>
+
+    <div class="field">
+      <label>Jenis Dokumen</label>
+      <select id="jenis">
+        <option value="">— Pilih jenis dokumen —</option>
+        <option>Laporan Bulanan</option>
+        <option>Surat Dinas</option>
+        <option>Berita Acara</option>
+        <option>SPJ / Keuangan</option>
+        <option>Dokumen Kepegawaian</option>
+        <option>Lainnya</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Perihal / Keterangan</label>
+      <textarea id="keterangan" placeholder="Tuliskan keterangan singkat..."></textarea>
+    </div>
+  </div>
+
+  <!-- UPLOAD FILE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📎</div>
+      <div class="card-title">Upload File</div>
+    </div>
+
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" />
+      <div class="drop-icon">⬆️</div>
+      <div class="drop-label">Seret file ke sini atau <span>klik untuk memilih</span></div>
+      <div class="drop-label" style="font-size:0.7rem;margin-top:6px;">PDF, Word, Excel, JPG, PNG — Maks 10MB</div>
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="response-box" id="responseBox"></div>
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="btn btn-primary" id="submitBtn" onclick="kirimData()">
+    KIRIM DATA
+  </button>
+
+</main>
+
+<footer>
+  &copy; 2025 LOSHRIS &mdash; Sistem Informasi Internal
+</footer>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUt1wN4ipBtN2fK25eIXKtoioiAl9lygoqaC2-Y-7chsufr01r6uAvSUjaKqxkS7qtzA/exec";
+
+  // Set tanggal hari ini
+  document.getElementById('tanggal').valueAsDate = new Date();
+
+  // Drag & drop
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileList  = document.getElementById('fileList');
+
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+  let selectedFiles = [];
+
+  function handleFiles(files) {
+    [...files].forEach(f => {
+      if (!selectedFiles.find(x => x.name === f.name && x.size === f.size)) {
+        selectedFiles.push(f);
+      }
+    });
+    renderFileList();
+  }
+
+  function renderFileList() {
+    fileList.innerHTML = '';
+    selectedFiles.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = `
+        <span class="file-name">📄 ${f.name}</span>
+        <span class="file-size">${(f.size/1024).toFixed(1)} KB</span>
+        <button class="file-remove" onclick="removeFile(${i})">✕</button>
+      `;
+      fileList.appendChild(item);
+    });
+  }
+
+  function removeFile(i) {
+    selectedFiles.splice(i, 1);
+    renderFileList();
+  }
+
+  function fileToBase64(file) {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('Gagal membaca file'));
+      r.readAsDataURL(file);
+    });
+  }
+
+  async function kirimData() {
+    const nama       = document.getElementById('nama').value.trim();
+    const nip        = document.getElementById('nip').value.trim();
+    const unit       = document.getElementById('unit').value.trim();
+    const tanggal    = document.getElementById('tanggal').value;
+    const jenis      = document.getElementById('jenis').value;
+    const keterangan = document.getElementById('keterangan').value.trim();
+
+    const responseBox  = document.getElementById('responseBox');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressBar  = document.getElementById('progressBar');
+    const submitBtn    = document.getElementById('submitBtn');
+
+    // Validasi
+    if (!nama || !unit || !jenis) {
+      showResponse('error', '⚠ Harap lengkapi: Nama, Unit, dan Jenis Dokumen.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'MENGIRIM...';
+    responseBox.style.display = 'none';
+    progressWrap.style.display = 'block';
+    progressBar.style.width = '20%';
+
+    // Encode files
+    const filesData = [];
+    for (const f of selectedFiles) {
+      const b64 = await fileToBase64(f);
+      filesData.push({ name: f.name, type: f.type, data: b64 });
+    }
+
+    progressBar.style.width = '55%';
+
+    const payload = { nama, nip, unit, tanggal, jenis, keterangan, files: filesData };
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+
+      progressBar.style.width = '90%';
+      const text = await res.text();
+
+      let msg;
+      try { msg = JSON.parse(text); } catch { msg = { status: 'ok', message: text }; }
+
+      progressBar.style.width = '100%';
+      setTimeout(() => { progressWrap.style.display = 'none'; progressBar.style.width = '0%'; }, 600);
+
+      if (msg.status === 'error') {
+        showResponse('error', '❌ ' + (msg.message || 'Terjadi kesalahan.'));
+      } else {
+        showResponse('success', '✅ Data berhasil dikirim! Terima kasih, ' + nama + '.');
+        resetForm();
+      }
+
+    } catch (err) {
+      progressWrap.style.display = 'none';
+      showResponse('error', '❌ Gagal terhubung ke server. Periksa koneksi Anda.');
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'KIRIM DATA';
+  }
+
+  function showResponse(type, msg) {
+    const box = document.getElementById('responseBox');
+    box.className = 'response-box ' + type;
+    box.textContent = msg;
+    box.style.display = 'block';
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resetForm() {
+    document.getElementById('nama').value = '';
+    document.getElementById('nip').value = '';
+    document.getElementById('unit').value = '';
+    document.getElementById('jenis').value = '';
+    document.getElementById('keterangan').value = '';
+    document.getElementById('tanggal').valueAsDate = new Date();
+    selectedFiles = [];
+    renderFileList();
+  }
+</script>
+
+</body>
+</html>
